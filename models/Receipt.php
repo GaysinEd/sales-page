@@ -13,7 +13,8 @@ use yii\db\ActiveRecord;
  * @property int             $quantity          количество
  * @property int             $provider_id       id_поставщика
  * @property string          $time_of_receipt   время продажи
- * @property ProductsGuide   $productsGuide     информация о продуктах
+ * @property ProductsGuide   $product           информация о продукте
+ * @property Provider        $provider          информация о поставщике
  */
 
 class Receipt extends ActiveRecord
@@ -45,4 +46,15 @@ class Receipt extends ActiveRecord
             'time_of_receipt' => 'Время поступления товара',
         ];
     }
+
+    public function getProduct(): \yii\db\ActiveQuery
+    {
+        return $this->hasOne(ProductsGuide::class,['id' => 'product_id']);
+    }
+
+    public function getProvider(): \yii\db\ActiveQuery
+    {
+        return $this->hasOne(Provider::class,['id' => 'provider_id']);
+    }
+
 }

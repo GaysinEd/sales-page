@@ -15,8 +15,7 @@ use app\models\Manager;
  * @property int             $manager_id     id_продавца
  * @property string          $time_of_sale   время продажи
  * @property Manager         $manager        ФИО менеджерa
- * @property ProductsGuide   $productsGuide  информация о продуктах
- * @property Sales[]         $sales          продажи
+ * @property ProductsGuide   $product        информация о продукте
  */
 class Sales extends ActiveRecord
 {
@@ -61,11 +60,6 @@ class Sales extends ActiveRecord
 
 
 
-
-    public function getSumPriceSale(): float|int
-    {
-        return $this->price * $this->quantity;
-    }
 
 
 

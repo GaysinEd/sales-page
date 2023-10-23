@@ -116,6 +116,9 @@ class ReceiptController extends Controller
      */
     public function actionUpdate($id)
     {
+        $productsGuide    = ProductsGuide::find()->all();
+        $providers        = Provider::find()->all();
+
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -124,6 +127,8 @@ class ReceiptController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'productsGuide' => $productsGuide,
+            'providers'     => $providers,
         ]);
     }
 
