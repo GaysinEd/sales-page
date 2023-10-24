@@ -30,8 +30,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'product_id',
-            'provider_id',
+            [
+                'attribute' => 'product_id',
+                'value' => function ($model) {
+                    return $model->product->name;
+            },
+            ],
+            [
+                'attribute' => 'provider_id',
+                'value' => function ($model) {
+                    return $model->provider->name;
+                },
+            ],
             'price',
             'quantity',
             'time_of_receipt',
