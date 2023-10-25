@@ -28,8 +28,20 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'product_id',
-            'provider_id',
+            [
+                'attribute' => 'product_id',
+                'label' => 'Продукт',
+                'value' => function ($model) {
+                    return $model->product->name;
+                },
+            ],
+            [
+                'attribute' => 'provider_id',
+                'label' => 'Поставщик',
+                'value' => function ($model) {
+                    return $model->provider->name;
+                },
+            ],
             'price',
             'quantity',
             'time_of_receipt',
