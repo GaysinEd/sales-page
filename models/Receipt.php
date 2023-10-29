@@ -27,7 +27,7 @@ class Receipt extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['id', 'product_id', 'provider_id'],                'integer'],
+            [['product_id', 'provider_id'],                      'integer'],
             [['price'],                                          'double', 'min' => 0.01],
             [['quantity'],                                       'integer', 'min' => 0],
             [['time_of_receipt'],                                'string', 'max' => 255],

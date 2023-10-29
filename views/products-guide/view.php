@@ -35,8 +35,12 @@ YiiAsset::register($this);
         'attributes' => [
             'id',
             'name',
-            'price',
-            'quantity',
+            [
+                'attribute' => 'category_id',
+                'value' => function ($model) {
+                    return $model->category->name ?? 'None';
+                },
+            ],
         ],
     ]) ?>
 

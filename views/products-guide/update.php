@@ -6,6 +6,7 @@ use yii\web\View;
 
 /** @var View $this */
 /** @var ProductsGuide $model */
+/** @var app\models\Category[] $category */
 
 $this->title = 'Изменить: ' . $model->name;         //?
 $this->params['breadcrumbs'][] = ['label' => 'Список товаров', 'url' => ['index']];
@@ -18,6 +19,7 @@ $this->params['breadcrumbs'][] = 'Изменить';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'category' => $category,
     ]) ?>
 
 </div>

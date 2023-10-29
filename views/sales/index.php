@@ -78,20 +78,18 @@ use yii\grid\GridView;
         <th>Наименование товара</th>
         <th>Суммарная цена всех проданных товаров данного типа</th>
         <th>Суммарное количество проданных товаров данного типа</th>
+        <th>Оcталось товаров данного типа</th>
         <th>Дата продажи последнего товара</th>
         <th>ФИО продавца продавшего последний товар</th>
     </tr>
     <?php foreach ($productsGuide as $product): ?>
         <tr>
             <td><?= $product->name ?></td>
-            <td><?= $product->sumPriceProduct ?></td>
-            <td><?= $product->sumQuantityProduct ?></td>
-            <td><?= $product->timeLastSale ?? 'None' ?></td>
-<!--            <td>--><?php //= $modelManager->getShortName() ?? 'None' ?><!--</td>-->
-<!--            <td>--><?php //= $modelSales->getManagerLastSale() ?? 'None' ?><!--</td>-->
-<!--            <td>--><?php //= $modelSales->getManagerLastSale() ?? 'None' ?><!--</td>-->
+            <td><?= $product->sumPriceSaleProduct              ?? 'None' ?></td>
+            <td><?= $product->sumQuantitySaleProduct           ?? 'None' ?></td>
+            <td><?= $product->remainder                    ?? 'None' ?></td>
+            <td><?= $product->timeLastSale                 ?? 'None' ?></td>
             <td><?= $product->lastSale->manager->shortName ?? 'None' ?></td>
-<!--            <td>--><?php //= $product->lastSale->manager->shortName ?? 'None' ?><!--</td>-->
         </tr>
     <?php endforeach; ?>
 </table>

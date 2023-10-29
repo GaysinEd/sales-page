@@ -28,8 +28,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'name',
-            'price',
-            'quantity',
+            [
+                'attribute' => 'category_id',
+                'label'     => 'Категория',
+                'value'     => function ($model) {
+                    return $model->category->name ?? 'None';
+                },
+            ],
             [
                 'class' => ActionColumn::class,
                 'urlCreator' => function ($action, ProductsGuide $model, $key, $index, $column) {

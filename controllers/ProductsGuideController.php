@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Category;
 use app\models\ProductsGuide;
 use yii\web\Controller;
 use yii\data\ActiveDataProvider;
@@ -73,6 +74,8 @@ class ProductsGuideController extends Controller
 
     public function actionCreate()
     {
+        $category = Category::find()->all();
+
         $model = new ProductsGuide();
         if($this->request->isPost){
             if($model->load($this->request->post()) && $model->save()){
@@ -83,7 +86,8 @@ class ProductsGuideController extends Controller
         }
 
         return $this->render('create', [
-            'model'=> $model,
+            'model'    => $model,
+            'category' => $category,
         ]);
     }
 
@@ -97,6 +101,8 @@ class ProductsGuideController extends Controller
 
     public function actionUpdate(int $id)
     {
+        $category = Category::find()->all();
+
         $model = $this->findModel($id);
 
         if($this->request->isPost && $model->load($this->request->post()) && $model->save()){
@@ -105,7 +111,8 @@ class ProductsGuideController extends Controller
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'model'    => $model,
+            'category' => $category,
         ]);
     }
 

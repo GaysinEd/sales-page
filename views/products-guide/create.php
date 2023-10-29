@@ -2,8 +2,10 @@
 
 use yii\helpers\Html;
 
+
 /** @var yii\web\View $this */
-/** @var app\models\ProductsGuide $model */
+/** @var app\models\ProductsGuide   $model */
+/** @var app\models\Category[] $category */
 
 $this->title = 'Добавить товар';
 $this->params['breadcrumbs'][] = ['label' => 'Список товаров', 'url' => ['index']];
@@ -14,7 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
-        'model' => $model,
+        'model'    => $model,
+        'category' => $category,
     ]) ?>
 
 </div>

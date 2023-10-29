@@ -8,15 +8,18 @@ use yii\db\ActiveRecord;
 /**
  * Это класс модели для таблицы "products_guide".
  *
- * @property int     $id                 id
- * @property string  $name               наименование
- * @property int     $price              цена
- * @property int     $quantity           количество
- * @property Sales[] $sales              продажи
- * @property int     $sumQuantityProduct суммарное кол-во продаж
- * @property int     $sumPriceProduct    суммарная цена продаж
- * @property string  $timeLastSale       время последней продажи
- * @property Sales   $lastSale           последняя продажа
+ * @property int     $id                     id
+ * @property string  $name                   наименование товара
+ * @property int     $price                  цена
+ * @property int     $quantity               количество
+ * @property Sales[] $sales                  продажи
+ * @property int     $sumQuantitySaleProduct суммарное кол-во продаж товара
+ * @property int     $sumPriceSaleProduct    суммарная цена продаж товара
+ * @property string  $timeLastSale           время последней продажи твоара
+ * @property Sales   $lastSale               последняя продажа
+ * @property int     $sumQuantityReceipt     суммарное кол-во поступлений товара
+ * @property int     $remainder              остаток товара
+ *
  */
 
 class ProductsGuide extends ActiveRecord
@@ -30,19 +33,18 @@ class ProductsGuide extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['price'],    'double',  'min'  => 0.01],
-            [['quantity'], 'integer', 'min'  => 0],
-            [['name'],     'string',  'max'  => 255],
+            [['name'],                'string',  'max'  => 255],
+            [['category_id'],         'integer'],
+            [['name', 'category_id'], 'required'],
         ];
     }
 
     public function attributeLabels(): array
     {
         return [
-            'id'       => 'id',
-            'name'     => 'Наименование',
-            'price'    => 'Цена',
-            'quantity' => 'Количество',
+            'id'          => 'id',
+            'name'        => 'Товар',
+            'category_id' => 'Категория',
         ];
     }
 
@@ -51,31 +53,18 @@ class ProductsGuide extends ActiveRecord
         return $this->hasMany(Sales::class, ['product_id' => 'id']);
     }
 
+    public function getCategory(): \yii\db\ActiveQuery
+    {
+        return $this->hasOne(Category::class, ['id' => 'category_id']);
+    }
+
+    public function getReceipt(): \yii\db\ActiveQuery
+    {
+        return $this->hasMany(Receipt::class, ['product_id' => 'id']);
+    }
 
 
-//    public function getSumPriceProduct(): float|int
-//    {
-//        $sum = 0;
-//        $sales = $this->sales;
-//        foreach ($sales as $sale)
-//        {
-//            $sum += $sale->price * $sale->quantity;
-//        }
-//        return $sum;
-//    }
-
-
-//    public function getSumPriceProduct(): float|int
-//    {
-//        $sum = 0;
-//        $sales = $this->sales;
-//        foreach ($sales as $sale) {
-//            $sum += $sale->getSumPriceSale();
-//        }
-//        return $sum;
-//    }
-
-    public function getSumPriceProduct(): bool|int|string|null
+    public function getSumPriceSaleProduct()
     {
         return $this->getSales()
             ->select('sum(price*quantity)')
@@ -83,50 +72,51 @@ class ProductsGuide extends ActiveRecord
 
     }
 
-
-    public function getLastSale(): array|ActiveRecord|null
+    public function getLastSale()
     {
-
-         return $this->getSales()
+         return $this->getSales()                         // до сих пор ли это объект?
             ->orderBy(['id' => SORT_DESC])
             ->one();
-
     }
 
-    public function getSumQuantityProduct(): int
+
+    public function getSumQuantitySaleProduct(): int
     {
-        $count = 0;
-        $sales = $this->sales;
-        foreach ($sales as $sale) {
-            $count += $sale->quantity;
-        }
-        return $count;
+        return $this->getSales()
+            ->select('sum(quantity)')
+            ->scalar();
     }
 
 
     public function getTimeLastSale()
     {
-        $sales = $this->sales;
-        $lastSale = end($sales);
-        return $lastSale->time_of_sale;
+        return $this->getSales()
+            ->select('time_of_sale')
+            ->orderBy(['id' => SORT_DESC])
+            ->scalar();
     }
 
 
-//    public function getLastSale(): bool|Sales
+
+//    public function getTimeLastSale()
 //    {
-//        $sales = $this->sales;
-//        return end($sales);
+//        return $this->getSales()
+//            ->select('time_of_sale')
+//            ->orderBy(['id' => SORT_DESC])          //ПОчему не работает?
+//            ->one();
 //    }
 
+    public function getSumQuantityReceipt()
+    {
+        return $this->getReceipt()
+            ->select('sum(quantity)')
+            ->scalar();
+    }
 
-//    public function getLastSale()
-//    {
-//        $sales[] = Sales::find()
-//            ->select(['*'])
-//            ->orderBy(['id' => SORT_DESC]);
-//       //     ->one();
-//        return array_shift($sales);
-//    }
+    public function getRemainder(): int
+    {
+        return $this->sumQuantityReceipt - $this->sumQuantitySaleProduct;
+    }
 
 
 }

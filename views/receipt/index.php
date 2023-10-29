@@ -1,6 +1,5 @@
 <?php
 
-use app\models\ProductsGuide;
 use app\models\Receipt;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -32,14 +31,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'product_id',
                 'label' => 'Продукт',
                 'value' => function ($model) {
-                    return $model->product->name;
+                    return $model->product->name ?? 'None';
                 },
             ],
             [
                 'attribute' => 'provider_id',
                 'label' => 'Поставщик',
                 'value' => function ($model) {
-                    return $model->provider->name;
+                    return $model->provider->name ?? 'None';
                 },
             ],
             'price',

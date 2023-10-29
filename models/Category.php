@@ -27,4 +27,9 @@ class Category extends ActiveRecord
             'name'       => 'Наименование категории',
         ];
     }
+
+    public function getProduct(): \yii\db\ActiveQuery
+    {
+        return $this->hasOne(ProductsGuide::class,['category_id' => 'id']);
+    }
 }

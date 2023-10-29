@@ -24,9 +24,16 @@ class Provider extends ActiveRecord
     public function attributeLabels(): array
     {
         return [
-            'id' => 'id',
-            'name' => 'Наименование поставщика',
-            'inn' => 'ИНН',
+            'id'   => 'id',
+            'name' => 'Поставщик',
+            'inn'  => 'ИНН',
         ];
     }
+
+    public function getReceipt(): \yii\db\ActiveQuery
+    {
+        return $this->hasMany(Receipt::class, ['provider_id' => 'id']);
+    }
+
+
 }

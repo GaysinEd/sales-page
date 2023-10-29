@@ -33,13 +33,13 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'product_id',
                 'value' => function ($model) {
-                    return $model->product->name;
+                    return $model->product->name ?? 'None';
             },
             ],
             [
                 'attribute' => 'provider_id',
                 'value' => function ($model) {
-                    return $model->provider->name;
+                    return $model->provider->name ?? 'None';
                 },
             ],
             'price',
