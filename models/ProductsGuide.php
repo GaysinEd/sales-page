@@ -8,17 +8,19 @@ use yii\db\ActiveRecord;
 /**
  * Это класс модели для таблицы "products_guide".
  *
- * @property int     $id                     id
- * @property string  $name                   наименование товара
- * @property int     $price                  цена
- * @property int     $quantity               количество
- * @property Sales[] $sales                  продажи
- * @property int     $sumQuantitySaleProduct суммарное кол-во продаж товара
- * @property int     $sumPriceSaleProduct    суммарная цена продаж товара
- * @property string  $timeLastSale           время последней продажи твоара
- * @property Sales   $lastSale               последняя продажа
- * @property int     $sumQuantityReceipt     суммарное кол-во поступлений товара
- * @property int     $remainder              остаток товара
+ * @property int       $id                         id
+ * @property string    $name                       наименование товара
+ * @property int       $price                      цена
+ * @property int       $quantity                   количество
+ * @property Sales[]   $sales                      продажи
+ * @property int       $sumQuantitySaleProduct     суммарное кол-во продаж товара
+ * @property int       $sumPriceSaleProduct        суммарная цена продаж товара
+ * @property string    $timeLastSale               время последней продажи твоара
+ * @property Sales     $lastSale                   последняя продажа
+ * @property int       $sumQuantityReceipt         суммарное кол-во поступлений товара
+ * @property int       $remainder                  остаток товара
+ * @property Receipt[] $receipt                    поступления
+ * @property int       $avgPriceReceiptProduct     средняя цена поступлений товара
  *
  */
 
@@ -102,7 +104,7 @@ class ProductsGuide extends ActiveRecord
 //    {
 //        return $this->getSales()
 //            ->select('time_of_sale')
-//            ->orderBy(['id' => SORT_DESC])          //ПОчему не работает?
+//            ->orderBy(['id' => SORT_DESC])          //Почему не работает?
 //            ->one();
 //    }
 
@@ -117,6 +119,14 @@ class ProductsGuide extends ActiveRecord
     {
         return $this->sumQuantityReceipt - $this->sumQuantitySaleProduct;
     }
+
+    public function getAvgPriceReceiptProduct()
+    {
+        return $this->getReceipt()
+            ->select('avg(price)')
+            ->scalar();
+    }
+
 
 
 }

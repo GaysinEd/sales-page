@@ -52,6 +52,9 @@ $config = [
             ],
         ],
 
+        'validator' => [
+            'class' => 'app\components\QuantityValidator',
+        ]
     ],
     'params' => $params,
 ];

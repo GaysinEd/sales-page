@@ -78,7 +78,8 @@ use yii\grid\GridView;
         <th>Наименование товара</th>
         <th>Суммарная цена всех проданных товаров данного типа</th>
         <th>Суммарное количество проданных товаров данного типа</th>
-        <th>Оcталось товаров данного типа</th>
+        <th>Оcталось товаров на складе</th>
+        <th>Средняя закупочная цена товара</th>
         <th>Дата продажи последнего товара</th>
         <th>ФИО продавца продавшего последний товар</th>
     </tr>
@@ -87,9 +88,10 @@ use yii\grid\GridView;
             <td><?= $product->name ?></td>
             <td><?= $product->sumPriceSaleProduct              ?? 'None' ?></td>
             <td><?= $product->sumQuantitySaleProduct           ?? 'None' ?></td>
-            <td><?= $product->remainder                    ?? 'None' ?></td>
-            <td><?= $product->timeLastSale                 ?? 'None' ?></td>
-            <td><?= $product->lastSale->manager->shortName ?? 'None' ?></td>
+            <td><?= $product->remainder                        ?? 'None' ?></td>
+            <td><?= $product->avgPriceReceiptProduct           ?? 'None' ?></td>
+            <td><?= $product->timeLastSale                     ?? 'None' ?></td>
+            <td><?= $product->lastSale->manager->shortName     ?? 'None' ?></td>
         </tr>
     <?php endforeach; ?>
 </table>

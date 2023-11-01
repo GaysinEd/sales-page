@@ -165,7 +165,7 @@ class SalesController extends Controller
 //        }
 
 
-        $modelSales   = new Sales();
+        $modelSales = new Sales();
 
         if ($modelSales->load(Yii::$app->request->post()) && $modelSales->validate()) {
             $modelSales->time_of_sale = date('Y-m-d H:i:s');
