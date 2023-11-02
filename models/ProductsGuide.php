@@ -20,7 +20,7 @@ use yii\db\ActiveRecord;
  * @property int       $sumQuantityReceipt         суммарное кол-во поступлений товара
  * @property int       $remainder                  остаток товара
  * @property Receipt[] $receipt                    поступления
- * @property int       $avgPriceReceiptProduct     средняя цена поступлений товара
+ * @property float     $avgPriceReceiptProduct     средняя цена поступлений товара
  *
  */
 
@@ -120,11 +120,11 @@ class ProductsGuide extends ActiveRecord
         return $this->sumQuantityReceipt - $this->sumQuantitySaleProduct;
     }
 
-    public function getAvgPriceReceiptProduct()
+    public function getAvgPriceReceiptProduct(): float
     {
-        return $this->getReceipt()
-            ->select('avg(price)')
-            ->scalar();
+        return round($this->getReceipt()
+            ->select('(sum(price*quantity))/(sum(quantity))')
+            ->scalar(), 2);
     }
 
 

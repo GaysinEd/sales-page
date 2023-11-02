@@ -17,7 +17,10 @@ use yii\validators\QuantityValidator;
  * @property Manager         $manager            ФИО менеджерa
  * @property ProductsGuide   $product            информация о продукте
  * @property string          $quantityValidator  валидатор количества продаваемого товара
- */
+ * @property Receipt[]       $receipt            поступления товара
+ * @property string          $priceValidator     валидатор стоимости продаваемого товара
+ **/
+
 class Sales extends ActiveRecord
 {
 
@@ -63,13 +66,18 @@ class Sales extends ActiveRecord
         return $this->hasOne(ProductsGuide::class, ['id' => 'product_id']);
     }
 
-    public function quantityValidator($attribute)
+    public function getReceipt(): \yii\db\ActiveQuery
+    {
+        return $this->hasMany(Receipt::class, ['product_id' => 'product_id']);       //верно ли что hasMany ?
+    }
+
+    public function quantityValidator($value)
     {
         $product   = $this->product;
         $remainder = $product->remainder;
 
         if ($this->quantity > $remainder) {
-            $this->addError($attribute, 'столько нет в наличии');
+            $this->addError($value, 'столько нет в наличии');
         }
         
     }
@@ -83,6 +91,8 @@ class Sales extends ActiveRecord
             $this->addError($value, 'Цена ниже закупочной');
         }
     }
+
+
 
 //    public function getQuantityValidator2()
 //    {

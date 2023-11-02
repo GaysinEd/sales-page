@@ -15,6 +15,7 @@ use yii\db\ActiveRecord;
  * @property string          $time_of_receipt   время продажи
  * @property ProductsGuide   $product           информация о продукте
  * @property Provider        $provider          информация о поставщике
+ * @property Sales[]         $sales             продажи
  */
 
 class Receipt extends ActiveRecord
@@ -32,6 +33,7 @@ class Receipt extends ActiveRecord
             [['quantity'],                                       'integer', 'min' => 0],
             [['time_of_receipt'],                                'string', 'max' => 255],
             [['product_id', 'provider_id', 'price', 'quantity'], 'required'],
+            ['product_id', 'exist', 'targetClass' => ProductsGuide::className(), 'targetAttribute' => 'id'],
         ];
     }
 
@@ -55,6 +57,11 @@ class Receipt extends ActiveRecord
     public function getProvider(): \yii\db\ActiveQuery
     {
         return $this->hasOne(Provider::class,['id' => 'provider_id']);
+    }
+
+    public function getSales(): \yii\db\ActiveQuery
+    {
+        return $this->hasMany(Sales::class, ['product_id' => 'product_id']);       //верно ли что hasMany ?
     }
 
 }
