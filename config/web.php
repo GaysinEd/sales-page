@@ -56,6 +56,7 @@ $config = [
             'class' => 'app\components\QuantityValidator',
         ]
     ],
+    'defaultRoute' => 'script/calculate-total-quantity',
     'params' => $params,
 ];
 

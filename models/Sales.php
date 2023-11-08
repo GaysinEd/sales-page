@@ -38,8 +38,8 @@ class Sales extends ActiveRecord
             [['time_of_sale'],                                  'string',  'max' => 255],
             [['product_id', 'manager_id', 'price', 'quantity'], 'required'],
             [['price', 'quantity'], 'trim'],                                                  // для quantity не работает
-//            ['quantity', validators\QuantityValidator::class],
-            ['quantity', 'quantityValidator'],
+            ['quantity', QuantityValidator::class],
+//            ['quantity', 'quantityValidator'],
             ['price', 'priceValidator'],
         ];
     }

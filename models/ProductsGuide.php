@@ -128,6 +128,4 @@ class ProductsGuide extends ActiveRecord
     }
 
 
-
 }
-

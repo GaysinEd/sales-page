@@ -35,6 +35,12 @@ $config = [
         ],
     ],
     */
+    'controllerMap' => [
+        'your-script' => 'app\commands\YourScript',
+        'script' => 'app\commands\Script',
+    ],
+
+
 ];
 
 if (YII_ENV_DEV) {
