@@ -10,8 +10,8 @@ use yii\db\ActiveRecord;
  *
  * @property int       $id                         id
  * @property string    $name                       наименование товара
- * @property int       $price                      цена
- * @property int       $quantity                   количество
+ * @property double    $avg_price_receipt_product  средняя цена поступлений товара
+ * @property int       $quantity_product_in_stock  количество товара на складе
  * @property Sales[]   $sales                      продажи
  * @property int       $sumQuantitySaleProduct     суммарное кол-во продаж товара
  * @property int       $sumPriceSaleProduct        суммарная цена продаж товара
@@ -35,9 +35,10 @@ class ProductsGuide extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['name'],                'string',  'max'  => 255],
-            [['category_id'],         'integer'],
-            [['name', 'category_id'], 'required'],
+            [['name'],                                                'string',  'max'  => 255],
+            [['avg_price_receipt_product'],                           'double'],
+            [['category_id', 'quantity_product_in_stock'],'integer'],
+            [['name', 'category_id'],                                 'required'],
         ];
     }
 
