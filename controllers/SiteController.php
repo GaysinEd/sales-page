@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\User1;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -65,6 +66,47 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        //Method N1
+        $user = new User1();
+//        $user->on(User1::USER_REGISTERED, function (){
+//            var_dump('Письмо отправлено');
+//        });
+
+        // 1
+//        $user->on(User1::USER_REGISTERED, function ($event){
+//            var_dump($event->name);
+//        });
+
+        //2
+//        $user->on(User1::USER_REGISTERED, function ($event){
+//            var_dump($event->sender);
+//        });
+
+        //3
+        $user->on(User1::USER_REGISTERED, function ($event){
+            var_dump($event->data);
+        }, ['asd' => 'foo']);
+
+        //4
+        //handled -прерывает последовательность действий
+
+
+        $user->on(User1::USER_REGISTERED, function ($event){
+            var_dump($event->data);
+        }, ['asd' => 'foo']);
+
+//        //Method N2
+//        $user->on(User1::USER_REGISTERED, [$user, 'methodFromObject']);
+//
+//        //Method N3
+//        $user->on(User1::USER_REGISTERED, ['app\models\Mail', 'staticMethod']);
+//
+//        //Method N4
+//        $user->on(User1::USER_REGISTERED, 'get_class');
+
+        $user->trigger(User1::USER_REGISTERED);
+        die();
+
         return $this->render('index');
     }
 

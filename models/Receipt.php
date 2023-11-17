@@ -20,6 +20,9 @@ use yii\db\ActiveRecord;
 
 class Receipt extends ActiveRecord
 {
+    const EVENT_AFTER_INSERT = 'afterInsert';
+
+
     public static function tableName(): string
     {
         return 'receipt';
@@ -64,4 +67,16 @@ class Receipt extends ActiveRecord
         return $this->hasMany(Sales::class, ['product_id' => 'product_id']);       //верно ли что hasMany ?
     }
 
+    public function init()
+    {
+        parent::init();
+        $this->on(self::EVENT_AFTER_INSERT, [$this, 'handleAfterInsert']);
+    }
+
+    public function handleAfterInsert()
+    {
+        $productsGuide = ProductsGuide::findOne($this->product_id);
+        $productsGuide->quantity_product_in_stock += $this->quantity;
+        $productsGuide->save();
+    }
 }

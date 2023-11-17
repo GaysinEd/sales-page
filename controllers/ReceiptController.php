@@ -92,12 +92,10 @@ class ReceiptController extends Controller
         if ($this->request->isPost) {
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
                 $model->time_of_receipt = date('Y-m-d H:i:s');
-//                $model->save();
-//                return $this->refresh();
-                if ($model->save()) {
-//                    $receipt = Receipt::findOne($model->product_id);
-//                    $receipt->quantity += $model->quantity;
-//                    $receipt->save();
+
+                if ($model->save())
+                {
+                    $this->trigger(Receipt::EVENT_AFTER_INSERT);
 
 //                    return $this->redirect(['view', 'id' => $model->id]);
                     return $this->refresh();
@@ -129,6 +127,8 @@ class ReceiptController extends Controller
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            $this->trigger(Receipt::EVENT_AFTER_INSERT);
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

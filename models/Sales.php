@@ -24,6 +24,9 @@ use yii\validators\QuantityValidator;
 class Sales extends ActiveRecord
 {
 
+    const EVENT_AFTER_INSERT = 'afterInsert';
+
+
     public static function tableName(): string
     {
         return 'sales';
@@ -71,6 +74,26 @@ class Sales extends ActiveRecord
         return $this->hasMany(Receipt::class, ['product_id' => 'product_id']);       //верно ли что hasMany ?
     }
 
+
+    public function init()
+    {
+        parent::init();
+        $this->on(self::EVENT_AFTER_INSERT, [$this, 'handleAfterInsert']);
+    }
+
+    public function handleAfterInsert($event)
+    {
+        $modelSales    = $event->sender;
+        $productsGuide = ProductsGuide::findOne($modelSales->product_id);
+
+        if($productsGuide)
+        {
+            $newQuantity = $productsGuide->quantity_product_in_stock - $modelSales->quantity;
+            $productsGuide->quantity_product_in_stock = $newQuantity;
+            $productsGuide->save();
+        }
+    }
+
     public function quantityValidator($value)
     {
         $product   = $this->product;
@@ -94,16 +117,6 @@ class Sales extends ActiveRecord
 
 
 
-//    public function getQuantityValidator2()
-//    {
-//        $modelSales = new Sales();
-//        $this->quantity = $modelSales->quantity;
-//
-//        $validator = new QuantityValidator();
-//        $validator->validateAttribute($modelSales, 'quantity');
-//
-//
-//    }
 
 
 
@@ -111,19 +124,7 @@ class Sales extends ActiveRecord
 
 
 
-//   public function getManagerLastSale(): string
-//    {
-//////        $managers = $this->managers;             //??
-//////        foreach ($managers as $manager)
-//////        var_dump($manager);
-//
-//         return Manager::findOne(1)->shortName;     //норм
-//
-////          return Manager::findOne($this->manager_id)->where($this->time_of_sale)->max()->shortName;  //?
-//
-//////        return Manager::findOne(ProductsGuide::findOne($this->managerIdLastSale))->shortName; //?
-////
-//   }
+
 
 
 }

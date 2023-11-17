@@ -83,7 +83,7 @@ class ProductsGuide extends ActiveRecord
     }
 
 
-    public function getSumQuantitySaleProduct(): int
+    public function getSumQuantitySaleProduct(): ?int
     {
         return $this->getSales()
             ->select('sum(quantity)')
@@ -118,7 +118,11 @@ class ProductsGuide extends ActiveRecord
 
     public function getRemainder(): int
     {
-        return $this->sumQuantityReceipt - $this->sumQuantitySaleProduct;
+        if($this->sumQuantityReceipt != 'None' || $this->sumQuantityReceipt > 0) {
+            return $this->sumQuantityReceipt - $this->sumQuantitySaleProduct;
+        }else{
+            return $this->sumQuantitySaleProduct;
+        }
     }
 
     public function getAvgPriceReceiptProduct(): float
