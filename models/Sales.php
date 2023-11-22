@@ -1,7 +1,8 @@
 <?php
+
 namespace app\models;
 
-
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\validators\QuantityValidator;
 
@@ -23,9 +24,7 @@ use yii\validators\QuantityValidator;
 
 class Sales extends ActiveRecord
 {
-
     const EVENT_AFTER_INSERT = 'afterInsert';
-
 
     public static function tableName(): string
     {
@@ -36,11 +35,11 @@ class Sales extends ActiveRecord
     {
         return [
             [['id', 'product_id', 'manager_id'],                'integer'],
-            [['price'],                                         'double',  'min' => 0.01],
-            [['quantity'],                                      'integer', 'min' => 0],
-            [['time_of_sale'],                                  'string',  'max' => 255],
+            [['price'],                                         'double',    'min' => 0.01],
+            [['quantity'],                                      'integer',   'min' => 0],
+            [['time_of_sale'],                                  'string',    'max' => 255],
             [['product_id', 'manager_id', 'price', 'quantity'], 'required'],
-            [['price', 'quantity'], 'trim'],                                                  // для quantity не работает
+            [['price', 'quantity'], 'trim'],
             ['quantity', QuantityValidator::class],
 //            ['quantity', 'quantityValidator'],
             ['price', 'priceValidator'],
@@ -59,21 +58,20 @@ class Sales extends ActiveRecord
         ];
     }
 
-    public function getManager(): \yii\db\ActiveQuery
+    public function getManager(): ActiveQuery
     {
         return $this->hasOne(Manager::class, ['id' => 'manager_id']);
     }
 
-    public function getProduct(): \yii\db\ActiveQuery
+    public function getProduct(): ActiveQuery
     {
         return $this->hasOne(ProductsGuide::class, ['id' => 'product_id']);
     }
 
-    public function getReceipt(): \yii\db\ActiveQuery
+    public function getReceipt(): ActiveQuery
     {
         return $this->hasMany(Receipt::class, ['product_id' => 'product_id']);       //верно ли что hasMany ?
     }
-
 
     public function init()
     {
@@ -114,19 +112,6 @@ class Sales extends ActiveRecord
             $this->addError($value, 'Цена ниже закупочной');
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 

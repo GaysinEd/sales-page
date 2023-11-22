@@ -69,7 +69,7 @@ use yii\grid\GridView;
 //    echo '</pre>';
 //    exit();
 
-
+$this->title = 'Продажи';
 ?>
 
 

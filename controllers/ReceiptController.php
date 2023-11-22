@@ -10,6 +10,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\base\Event;
 
 /**
  * ReceiptController implements the CRUD actions for Receipt model.
@@ -95,8 +96,10 @@ class ReceiptController extends Controller
 
                 if ($model->save())
                 {
-                    $this->trigger(Receipt::EVENT_AFTER_INSERT);
+//                    $this->trigger(Receipt::EVENT_AFTER_INSERT);
 
+                    $this->trigger(Receipt::EVENT_AFTER_INSERT,
+                        new Event(['sender' => $model]));
 //                    return $this->redirect(['view', 'id' => $model->id]);
                     return $this->refresh();
                 }
@@ -127,13 +130,14 @@ class ReceiptController extends Controller
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            $this->trigger(Receipt::EVENT_AFTER_INSERT);
+//            $model->trigger(Receipt::EVENT_AFTER_UPDATE);
+            $model->trigger(Receipt::EVENT_BEFORE_UPDATE);
 
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'model'         => $model,
             'productsGuide' => $productsGuide,
             'providers'     => $providers,
         ]);

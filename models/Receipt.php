@@ -4,6 +4,7 @@ namespace app\models;
 
 use yii\db\ActiveRecord;
 
+
 /**
  * Это класс модели для таблицы "Sales".
  *
@@ -21,6 +22,8 @@ use yii\db\ActiveRecord;
 class Receipt extends ActiveRecord
 {
     const EVENT_AFTER_INSERT = 'afterInsert';
+//    const EVENT_AFTER_UPDATE = 'afterUpdate';
+    const EVENT_BEFORE_UPDATE = 'beforeUpdate';
 
 
     public static function tableName(): string
@@ -71,12 +74,60 @@ class Receipt extends ActiveRecord
     {
         parent::init();
         $this->on(self::EVENT_AFTER_INSERT, [$this, 'handleAfterInsert']);
+//        $this->on(self::EVENT_AFTER_UPDATE, [$this, 'afterUpdate']);
+        $this->on(self::EVENT_BEFORE_UPDATE, [$this, 'beforeUpdate']);
     }
 
-    public function handleAfterInsert()
+//    public function afterUpdate()
+//    {
+//        $this->trigger(self::EVENT_AFTER_UPDATE);
+//    }
+
+//    public function handleAfterInsert()
+//    {
+//        $productsGuide = ProductsGuide::findOne($this->product_id);
+//        $productsGuide->quantity_product_in_stock += $this->quantity;
+//        $productsGuide->save();
+//    }
+
+    public function handleAfterInsert($event)
     {
-        $productsGuide = ProductsGuide::findOne($this->product_id);
-        $productsGuide->quantity_product_in_stock += $this->quantity;
-        $productsGuide->save();
+        $model         = $event->sender;
+        $productsGuide = ProductsGuide::findOne($model->product_id);
+
+        if($productsGuide)
+        {
+            $newQuantity = $productsGuide->quantity_product_in_stock + $model->quantity;
+            $productsGuide->quantity_product_in_stock = $newQuantity;
+            $productsGuide->save();
+        }
     }
+
+    public function beforeUpdate($event)
+    {
+        $model = $event->sender;
+
+        $oldQuantity = $model->oldAttributes['quantity'];
+        $newQuantity = $model->attributes['quantity'];
+
+
+//        $oldQuantity = $model->getOldAttribute('quantity');
+
+
+//        $oldAttributes = $model->getAttributes($model->getDirtyAttributes());
+//        $oldQuantity = $oldAttributes['quantity'];
+
+
+        $product       = ProductsGuide::findOne($model->product_id);
+
+        if ($product) {
+            $quantityDiff = $newQuantity - $oldQuantity;
+            $product->quantity_product_in_stock += $quantityDiff;
+            $product->save();
+        }
+
+    }
+
+
+
 }
