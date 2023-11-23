@@ -2,7 +2,12 @@
 
 namespace app\models;
 
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+
+/**
+ * @property Receipt[] $receipt поступления
+ */
 
 class Provider extends ActiveRecord
 {
@@ -11,7 +16,6 @@ class Provider extends ActiveRecord
         return 'provider';
     }
 
-
     public function rules(): array
     {
         return [
@@ -19,7 +23,6 @@ class Provider extends ActiveRecord
             [['inn'],  'integer', 'min' => 0],
         ];
     }
-
 
     public function attributeLabels(): array
     {
@@ -30,7 +33,7 @@ class Provider extends ActiveRecord
         ];
     }
 
-    public function getReceipt(): \yii\db\ActiveQuery
+    public function getReceipt(): ActiveQuery
     {
         return $this->hasMany(Receipt::class, ['provider_id' => 'id']);
     }

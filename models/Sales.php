@@ -100,7 +100,6 @@ class Sales extends ActiveRecord
         if ($this->quantity > $remainder) {
             $this->addError($value, 'столько нет в наличии');
         }
-        
     }
 
     public function priceValidator($value)
@@ -108,7 +107,7 @@ class Sales extends ActiveRecord
         $product                = $this->product;
         $avgPriceReceiptProduct = $product->avgPriceReceiptProduct;
 
-        if($this->price < $avgPriceReceiptProduct){
+        if ($this->price < $avgPriceReceiptProduct) {
             $this->addError($value, 'Цена ниже закупочной');
         }
     }

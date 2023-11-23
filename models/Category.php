@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 class Category extends ActiveRecord
@@ -11,7 +12,6 @@ class Category extends ActiveRecord
         return 'category';
     }
 
-
     public function rules(): array
     {
         return [
@@ -19,16 +19,15 @@ class Category extends ActiveRecord
         ];
     }
 
-
     public function attributeLabels(): array
     {
         return [
-            'id'         => 'id',
-            'name'       => 'Наименование категории',
+            'id'   => 'id',
+            'name' => 'Наименование категории',
         ];
     }
 
-    public function getProduct(): \yii\db\ActiveQuery
+    public function getProduct(): ActiveQuery
     {
         return $this->hasOne(ProductsGuide::class,['category_id' => 'id']);
     }

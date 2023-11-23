@@ -2,16 +2,14 @@
 
 namespace app\models;
 
-
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
- *
  * @property int         $id
  * @property string|null $surname           Фамилия
  * @property string|null $name              Имя
  * @property string|null $patronymic        Отчество
- *
  * @property string      $shortName         Фамилия и инициалы
  * @property string      $fullName          Полное ФИО
  * @property Sales[]     $sales             Продажи
@@ -19,12 +17,10 @@ use yii\db\ActiveRecord;
  */
 class Manager extends ActiveRecord
 {
-
     public static function tableName(): string
     {
         return 'manager';
     }
-
 
     public function rules(): array
     {
@@ -32,7 +28,6 @@ class Manager extends ActiveRecord
             [['surname', 'name', 'patronymic'], 'string', 'max' => 255],
         ];
     }
-
 
     public function attributeLabels(): array
     {
@@ -54,7 +49,7 @@ class Manager extends ActiveRecord
         return $this->surname . ' ' . mb_substr($this->name, 0, 1) . '.' . mb_substr($this->patronymic, 0, 1);
     }
 
-    public function getSales(): \yii\db\ActiveQuery
+    public function getSales(): ActiveQuery
     {
         return  $this->hasMany(Sales::class, ['manager_id' => 'id']);
     }

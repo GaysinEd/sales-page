@@ -30,6 +30,11 @@ class ProductsGuideController extends Controller
         );
     }
 
+    /**
+     *Перечислены все модели продуктов.
+     *
+     * @return string
+     */
     public function actionIndex(): string
     {
         $dataProvider = new ActiveDataProvider([
@@ -77,11 +82,11 @@ class ProductsGuideController extends Controller
         $category = Category::find()->all();
 
         $model = new ProductsGuide();
-        if($this->request->isPost){
-            if($model->load($this->request->post()) && $model->save()){
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
-        }else{
+        } else {
             $model->loadDefaultValues();
         }
 
@@ -105,9 +110,8 @@ class ProductsGuideController extends Controller
 
         $model = $this->findModel($id);
 
-        if($this->request->isPost && $model->load($this->request->post()) && $model->save()){
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
-
         }
 
         return $this->render('update', [
@@ -130,7 +134,6 @@ class ProductsGuideController extends Controller
         return $this->redirect(['index']);
     }
 
-
     /**
      * Находит модель ProductsGuide на основе значения ее первичного ключа.
      * Если модель не найдена, будет выдано исключение HTTP 404.
@@ -138,7 +141,7 @@ class ProductsGuideController extends Controller
      * @return ProductsGuide загруженная модель
      * @throws NotFoundHttpException если модель не может быть найдена
      */
-    protected function findModel($id): ProductsGuide
+    protected function findModel(int $id): ProductsGuide
     {
         if (($model = ProductsGuide::findOne(['id' => $id])) !== null) {
             return $model;

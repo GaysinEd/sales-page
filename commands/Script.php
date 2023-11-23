@@ -15,11 +15,11 @@ Class Script extends Controller
         foreach ($products as $product) {
             if ($product instanceof ProductsGuide) {
 
-                $sumQuantityReceiptProduct = intval($product->getSumQuantityReceiptProduct());
+                $sumQuantityReceiptProduct = $product->getSumQuantityReceiptProduct();
 
-                $sumQuantitySaleProduct = intval($product->getSumQuantitySaleProduct());
+                $sumQuantitySaleProduct    = $product->getSumQuantitySaleProduct();
 
-                $avgPriceReceiptProduct = round($product->getAvgPriceReceiptProduct(), 2);
+                $avgPriceReceiptProduct    = round($product->getAvgPriceReceiptProduct(), 2);
 
                 $product->quantity_product_in_stock = $sumQuantityReceiptProduct - $sumQuantitySaleProduct;
                 $product->avg_price_receipt_product = $avgPriceReceiptProduct;

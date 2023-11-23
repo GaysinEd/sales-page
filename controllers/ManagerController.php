@@ -15,10 +15,7 @@ use yii\web\Response;
  */
 class ManagerController extends Controller
 {
-    /**
-     * @inheritDoc
-     */
-    public function behaviors()
+    public function behaviors(): array
     {
         return array_merge(
             parent::behaviors(),
@@ -33,10 +30,8 @@ class ManagerController extends Controller
         );
     }
 
-
     /**
-     *
-        Перечислены все модели менеджеров.
+     *Перечислены все модели менеджеров.
      *
      * @return string
      */
@@ -67,7 +62,7 @@ class ManagerController extends Controller
      * @return string
      * @throws NotFoundHttpException если модель не может быть найдена
      */
-    public function actionView($id)
+    public function actionView(int $id): string
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -97,7 +92,6 @@ class ManagerController extends Controller
 
     }
 
-
     /**
      * Обновляет существующую модель Manager.
      * Если обновление пройдет успешно, браузер будет перенаправлен на страницу "просмотр".
@@ -105,7 +99,7 @@ class ManagerController extends Controller
      * @return string|Response
      * @throws NotFoundHttpException если модель не может быть найдена
      */
-    public function actionUpdate($id)
+    public function actionUpdate(int $id)
     {
         $model = $this->findModel($id);
 
@@ -127,10 +121,9 @@ class ManagerController extends Controller
      * @throws \Throwable
      * @throws StaleObjectException
      */
-    public function actionDelete(int $id)
+    public function actionDelete(int $id): Response
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 
@@ -141,7 +134,7 @@ class ManagerController extends Controller
      * @return Manager загруженная модель
      * @throws NotFoundHttpException если модель не может быть найдена
      */
-    protected function findModel(int $id)
+    protected function findModel(int $id): Manager
     {
         $model = Manager::findOne(['id' => $id]);
 

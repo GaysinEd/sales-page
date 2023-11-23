@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 
@@ -34,12 +35,12 @@ class Receipt extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['product_id', 'provider_id'],                      'integer'],
-            [['price'],                                          'double', 'min' => 0.01],
-            [['quantity'],                                       'integer', 'min' => 0],
-            [['time_of_receipt'],                                'string', 'max' => 255],
-            [['product_id', 'provider_id', 'price', 'quantity'], 'required'],
-            ['product_id', 'exist', 'targetClass' => ProductsGuide::className(), 'targetAttribute' => 'id'],
+            [['product_id', 'provider_id'],                                                            'integer'],
+            [['price'],                                                                                'double', 'min'  => 0.01],
+            [['quantity'],                                                                             'integer', 'min' => 0],
+            [['time_of_receipt'],                                                                      'string', 'max'  => 255],
+            [['product_id', 'provider_id', 'price', 'quantity'],                                       'required'],
+            ['product_id', 'exist', 'targetClass' => ProductsGuide::class, 'targetAttribute' => 'id'],
         ];
     }
 
@@ -55,17 +56,17 @@ class Receipt extends ActiveRecord
         ];
     }
 
-    public function getProduct(): \yii\db\ActiveQuery
+    public function getProduct(): ActiveQuery
     {
         return $this->hasOne(ProductsGuide::class,['id' => 'product_id']);
     }
 
-    public function getProvider(): \yii\db\ActiveQuery
+    public function getProvider(): ActiveQuery
     {
         return $this->hasOne(Provider::class,['id' => 'provider_id']);
     }
 
-    public function getSales(): \yii\db\ActiveQuery
+    public function getSales(): ActiveQuery
     {
         return $this->hasMany(Sales::class, ['product_id' => 'product_id']);       //верно ли что hasMany ?
     }
@@ -78,18 +79,6 @@ class Receipt extends ActiveRecord
         $this->on(self::EVENT_BEFORE_UPDATE, [$this, 'beforeUpdate']);
     }
 
-//    public function afterUpdate()
-//    {
-//        $this->trigger(self::EVENT_AFTER_UPDATE);
-//    }
-
-//    public function handleAfterInsert()
-//    {
-//        $productsGuide = ProductsGuide::findOne($this->product_id);
-//        $productsGuide->quantity_product_in_stock += $this->quantity;
-//        $productsGuide->save();
-//    }
-
     public function handleAfterInsert($event)
     {
         $model         = $event->sender;
@@ -97,7 +86,7 @@ class Receipt extends ActiveRecord
 
         if($productsGuide)
         {
-            $newQuantity = $productsGuide->quantity_product_in_stock + $model->quantity;
+            $newQuantity                              = $productsGuide->quantity_product_in_stock + $model->quantity;
             $productsGuide->quantity_product_in_stock = $newQuantity;
             $productsGuide->save();
         }
@@ -110,24 +99,12 @@ class Receipt extends ActiveRecord
         $oldQuantity = $model->oldAttributes['quantity'];
         $newQuantity = $model->attributes['quantity'];
 
-
-//        $oldQuantity = $model->getOldAttribute('quantity');
-
-
-//        $oldAttributes = $model->getAttributes($model->getDirtyAttributes());
-//        $oldQuantity = $oldAttributes['quantity'];
-
-
         $product       = ProductsGuide::findOne($model->product_id);
 
-        if ($product) {
-            $quantityDiff = $newQuantity - $oldQuantity;
+        if ($product instanceof ProductsGuide) {
+            $quantityDiff                        = $newQuantity - $oldQuantity;
             $product->quantity_product_in_stock += $quantityDiff;
             $product->save();
         }
-
     }
-
-
-
 }

@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use yii\data\Sort;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -35,7 +34,7 @@ class ProductsGuide extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['name'],                                     'string', 'max'  => 255],
+            [['name'],                                     'string',    'max'  => 255],
             [['avg_price_receipt_product'],                'double'],
             [['category_id', 'quantity_product_in_stock'], 'integer'],
             [['name', 'category_id'],                      'required'],
@@ -66,7 +65,7 @@ class ProductsGuide extends ActiveRecord
         return $this->hasMany(Receipt::class, ['product_id' => 'id']);
     }
 
-    public function getSumPriceSaleProduct()
+    public function getSumPriceSaleProduct(): ?int
     {
         return $this->getSales()
             ->select('sum(price*quantity)')

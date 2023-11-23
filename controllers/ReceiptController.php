@@ -11,16 +11,14 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\base\Event;
+use yii\web\Response;
 
 /**
- * ReceiptController implements the CRUD actions for Receipt model.
+ * ReceiptController реализует действия CRUD для модели Receipt.
  */
 class ReceiptController extends Controller
 {
-    /**
-     * @inheritDoc
-     */
-    public function behaviors()
+    public function behaviors(): array
     {
         return array_merge(
             parent::behaviors(),
@@ -36,11 +34,11 @@ class ReceiptController extends Controller
     }
 
     /**
-     * Lists all Receipt models.
+     * Перечислены все модели Receipt.
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex(): string
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Receipt::find(),
@@ -62,12 +60,12 @@ class ReceiptController extends Controller
     }
 
     /**
-     * Displays a single Receipt model.
+     * Отображает единую модель Receipt.
      * @param int $id id
      * @return string
-     * @throws NotFoundHttpException if the model cannot be found
+     * @throws NotFoundHttpException если модель не может быть найдена
      */
-    public function actionView($id)
+    public function actionView(int $id): string
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -75,9 +73,9 @@ class ReceiptController extends Controller
     }
 
     /**
-     * Creates a new Receipt model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
+     * Создает новую модель Receipt.
+     * Если создание прошло успешно, браузер будет перенаправлен на страницу "просмотр".
+     * @return string|Response
      */
     public function actionCreate()
     {
@@ -86,27 +84,18 @@ class ReceiptController extends Controller
 
         $model = new Receipt();
 
-
-
-
-
         if ($this->request->isPost) {
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
                 $model->time_of_receipt = date('Y-m-d H:i:s');
 
-                if ($model->save())
-                {
+                if ($model->save()) {
 //                    $this->trigger(Receipt::EVENT_AFTER_INSERT);
-
                     $this->trigger(Receipt::EVENT_AFTER_INSERT,
                         new Event(['sender' => $model]));
-//                    return $this->redirect(['view', 'id' => $model->id]);
-                    return $this->refresh();
+                    return $this->redirect(['view', 'id' => $model->id]);
                 }
             }
         }
-
-
 
         return $this->render('create', [
             'model'         => $model,
@@ -116,13 +105,13 @@ class ReceiptController extends Controller
     }
 
     /**
-     * Updates an existing Receipt model.
-     * If update is successful, the browser will be redirected to the 'view' page.
+     * Обновляет существующую модель Receipt.
+     * Если обновление прошло успешно, браузер будет перенаправлен на страницу "просмотр".
      * @param int $id id
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
+     * @return string|Response
+     * @throws NotFoundHttpException если модель не может быть найдена
      */
-    public function actionUpdate($id)
+    public function actionUpdate(int $id)
     {
         $productsGuide    = ProductsGuide::find()->all();
         $providers        = Provider::find()->all();
@@ -130,7 +119,6 @@ class ReceiptController extends Controller
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-//            $model->trigger(Receipt::EVENT_AFTER_UPDATE);
             $model->trigger(Receipt::EVENT_BEFORE_UPDATE);
 
             return $this->redirect(['view', 'id' => $model->id]);
@@ -144,13 +132,13 @@ class ReceiptController extends Controller
     }
 
     /**
-     * Deletes an existing Receipt model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * Удаляет существующую модель Receipt.
+     * Если удаление прошло успешно, браузер будет перенаправлен на страницу "index".
      * @param int $id id
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
+     * @return Response
+     * @throws NotFoundHttpException если модель не может быть найдена
      */
-    public function actionDelete($id)
+    public function actionDelete(int $id): Response
     {
         $this->findModel($id)->delete();
 
@@ -158,18 +146,18 @@ class ReceiptController extends Controller
     }
 
     /**
-     * Finds the Receipt model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
+     * Находит модель Receipt на основе значения ее первичного ключа.
+     * Если модель не найдена, будет выдано исключение HTTP 404.
      * @param int $id id
-     * @return Receipt the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
+     * @return Receipt загруженная модель
+     * @throws NotFoundHttpException если модель не может быть найдена
      */
-    protected function findModel($id)
+    protected function findModel(int $id): Receipt
     {
         if (($model = Receipt::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException('Запрошенная страница не существует.');
     }
 }
