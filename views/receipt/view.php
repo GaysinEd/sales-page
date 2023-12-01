@@ -1,15 +1,17 @@
 <?php
 
 use yii\helpers\Html;
+use yii\web\YiiAsset;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
 /** @var app\models\Receipt $model */
 
+
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Поступление товара', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
+YiiAsset::register($this);
 ?>
 <div class="receipt-view">
 
@@ -27,14 +29,14 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?= DetailView::widget([
-        'model' => $model,
+        'model'      => $model,
         'attributes' => [
             'id',
             [
                 'attribute' => 'product_id',
                 'value' => function ($model) {
                     return $model->product->name ?? 'None';
-            },
+                },
             ],
             [
                 'attribute' => 'provider_id',

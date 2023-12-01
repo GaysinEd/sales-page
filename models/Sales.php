@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\behaviors\CalculateSaleBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\validators\QuantityValidator;
@@ -24,7 +25,7 @@ use yii\validators\QuantityValidator;
 
 class Sales extends ActiveRecord
 {
-    const EVENT_AFTER_INSERT = 'afterInsert';
+//    const EVENT_AFTER_INSERT = 'afterInsert';
 
     public static function tableName(): string
     {
@@ -58,6 +59,16 @@ class Sales extends ActiveRecord
         ];
     }
 
+    public function behaviors(): array
+    {
+        return [
+            'calculateSaleBehavior' => [
+                'class' => CalculateSaleBehavior::class,
+            ]
+
+        ];
+    }
+
     public function getManager(): ActiveQuery
     {
         return $this->hasOne(Manager::class, ['id' => 'manager_id']);
@@ -71,25 +82,6 @@ class Sales extends ActiveRecord
     public function getReceipt(): ActiveQuery
     {
         return $this->hasMany(Receipt::class, ['product_id' => 'product_id']);       //верно ли что hasMany ?
-    }
-
-    public function init()
-    {
-        parent::init();
-        $this->on(self::EVENT_AFTER_INSERT, [$this, 'handleAfterInsert']);
-    }
-
-    public function handleAfterInsert($event)
-    {
-        $modelSales    = $event->sender;
-        $productsGuide = ProductsGuide::findOne($modelSales->product_id);
-
-        if($productsGuide)
-        {
-            $newQuantity = $productsGuide->quantity_product_in_stock - $modelSales->quantity;
-            $productsGuide->quantity_product_in_stock = $newQuantity;
-            $productsGuide->save();
-        }
     }
 
     public function quantityValidator($value)

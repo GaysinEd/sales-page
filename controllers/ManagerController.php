@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 
+
 /**
  * ManagerController реализует CRUD-действия для модели менеджера.
  */

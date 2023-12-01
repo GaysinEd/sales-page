@@ -4,10 +4,10 @@ use yii\helpers\Html;
 use app\models\ProductsGuide;
 use app\models\Provider;
 
-/** @var yii\web\View $this */
+/** @var yii\web\View       $this */
 /** @var app\models\Receipt $model */
-/** @var ProductsGuide[] $productsGuide */
-/** @var Provider[] $providers */
+/** @var ProductsGuide[]    $productsGuide */
+/** @var Provider[]         $providers */
 
 $this->title = 'Изменить: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Поступление товара', 'url' => ['index']];

@@ -6,11 +6,11 @@ use yii\widgets\ActiveForm;
 use app\models\ProductsGuide;
 use app\models\Provider;
 
-/** @var yii\web\View $this */
-/** @var app\models\Receipt $model */
+/** @var yii\web\View           $this */
+/** @var app\models\Receipt     $model */
 /** @var yii\widgets\ActiveForm $form */
-/** @var ProductsGuide[] $productsGuide */
-/** @var Provider[] $providers */
+/** @var ProductsGuide[]        $productsGuide */
+/** @var Provider[]             $providers */
 ?>
 
 <div class="receipt-form">

@@ -72,7 +72,7 @@ class ProductsGuide extends ActiveRecord
             ->scalar();
     }
 
-    public function getLastSale()
+    public function getLastSale(): object
     {
          return $this->getSales()
             ->orderBy(['id' => SORT_DESC])
@@ -86,7 +86,7 @@ class ProductsGuide extends ActiveRecord
             ->scalar();
     }
 
-    public function getTimeLastSale()
+    public function getTimeLastSale(): string
     {
         return $this->getSales()
             ->select('time_of_sale')
@@ -94,7 +94,7 @@ class ProductsGuide extends ActiveRecord
             ->scalar();
     }
 
-    public function getSumQuantityReceiptProduct()
+    public function getSumQuantityReceiptProduct(): ?int
     {
         return $this->getReceipt()
             ->select('sum(quantity)')

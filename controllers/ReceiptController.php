@@ -10,7 +10,6 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\base\Event;
 use yii\web\Response;
 
 /**
@@ -89,9 +88,6 @@ class ReceiptController extends Controller
                 $model->time_of_receipt = date('Y-m-d H:i:s');
 
                 if ($model->save()) {
-//                    $this->trigger(Receipt::EVENT_AFTER_INSERT);
-                    $this->trigger(Receipt::EVENT_AFTER_INSERT,
-                        new Event(['sender' => $model]));
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
             }
@@ -119,7 +115,6 @@ class ReceiptController extends Controller
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            $model->trigger(Receipt::EVENT_BEFORE_UPDATE);
 
             return $this->redirect(['view', 'id' => $model->id]);
         }
