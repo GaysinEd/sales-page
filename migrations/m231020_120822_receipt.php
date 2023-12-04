@@ -7,9 +7,6 @@ use yii\db\Migration;
  */
 class m231020_120822_receipt extends Migration
 {
-    /**
-     * Class m231020_120822_receipt
-     */
     public function safeUp()
     {
         $this->createTable('receipt', [
@@ -26,6 +23,4 @@ class m231020_120822_receipt extends Migration
     {
         $this->dropTable('receipt');
     }
-
-
 }

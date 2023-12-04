@@ -7,9 +7,6 @@ use yii\db\Migration;
  */
 class m231018_104529_category extends Migration
 {
-    /**
-     * Class m231018_104529_category
-     */
     public function safeUp()
     {
         $this->createTable('category', [
@@ -18,11 +15,9 @@ class m231018_104529_category extends Migration
         ]);
     }
 
-
     public function safeDown()
     {
         $this->dropTable('category');
 
     }
-
 }

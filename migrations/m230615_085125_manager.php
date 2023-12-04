@@ -7,7 +7,6 @@ use yii\db\Migration;
  */
 class m230615_085125_manager extends Migration
 {
-
     public function safeUp()
     {
         $this->createTable('manager', [
@@ -18,8 +17,6 @@ class m230615_085125_manager extends Migration
         ]);
 
     }
-
-
 
     public function safeDown()
     {

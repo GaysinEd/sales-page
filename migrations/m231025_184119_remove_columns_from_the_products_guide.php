@@ -7,9 +7,6 @@ use yii\db\Migration;
  */
 class m231025_184119_remove_columns_from_the_products_guide extends Migration
 {
-        /**
-        * {@inheritdoc}
-        */
         public function safeUp(): void
         {
             $this->dropColumn('products_guide', 'price');
@@ -17,9 +14,6 @@ class m231025_184119_remove_columns_from_the_products_guide extends Migration
             $this->addColumn('products_guide',  'category_id', $this->integer()->comment('id_категории'));
         }
 
-        /**
-        * {@inheritdoc}
-        */
         public function safeDown(): void
         {
             $this->addColumn('products_guide',  'price',    $this->double() ->comment('цена'));

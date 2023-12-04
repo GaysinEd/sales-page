@@ -7,9 +7,6 @@ use yii\db\Migration;
  */
 class m231018_111701_provider extends Migration
 {
-    /**
-     * Class m231018_111701_provider
-     */
     public function safeUp()
     {
         $this->createTable('provider', [
@@ -19,9 +16,6 @@ class m231018_111701_provider extends Migration
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function safeDown()
     {
         $this->dropTable('provider');

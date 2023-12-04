@@ -7,9 +7,6 @@ use yii\db\Migration;
  */
 class m230802_050508_sales_table extends Migration
 {
-    /**
-     * Class m230802_050508_sales_table
-     */
     public function safeUp()
     {
         $this->createTable('sales_table',[
@@ -21,7 +18,6 @@ class m230802_050508_sales_table extends Migration
             'time_of_sale' => $this->dateTime()->comment('время продажи'),
         ]);
     }
-
 
     public function safeDown()
     {

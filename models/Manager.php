@@ -54,5 +54,4 @@ class Manager extends ActiveRecord
         return  $this->hasMany(Sales::class, ['manager_id' => 'id']);
     }
 
-
 }

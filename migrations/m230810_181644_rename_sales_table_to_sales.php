@@ -7,14 +7,10 @@ use yii\db\Migration;
  */
 class m230810_181644_rename_sales_table_to_sales extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
     public function safeUp()
     {
         $this->renameTable('sales_table', 'sales');
     }
-
 
     public function safeDown()
     {
