@@ -130,7 +130,7 @@ class ProductsGuideController extends Controller
 
     public function actionDelete(int $id): Response
     {
-        $this->findModel($id)->delete();
+         $this->findModel($id)->delete();
         return $this->redirect(['index']);
     }
 

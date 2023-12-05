@@ -21,6 +21,7 @@ use yii\db\ActiveRecord;
  * @property int       $remainder                  остаток товара
  * @property Receipt[] $receipt                    поступления
  * @property float     $avgPriceReceiptProduct     средняя цена поступлений товара
+ * @property string    $delete_at                  дата удаления
  *
  */
 
@@ -34,19 +35,22 @@ class ProductsGuide extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['name'],                                     'string',    'max'  => 255],
-            [['avg_price_receipt_product'],                'double'],
+            [['name'], 'string',    'max'  => 255],
+            [['avg_price_receipt_product'], 'double'],
             [['category_id', 'quantity_product_in_stock'], 'integer'],
-            [['name', 'category_id'],                      'required'],
+            [['name', 'category_id'], 'required'],
+            [['delete_at'], 'string', 'max' => 255],
         ];
     }
 
     public function attributeLabels(): array
     {
         return [
-            'id'          => 'id',
-            'name'        => 'Товар',
-            'category_id' => 'Категория',
+            'id'                        => 'id',
+            'name'                      => 'Товар',
+            'category_id'               => 'Категория',
+            'avg_price_receipt_product' => 'Средняя цена поступлений товара',
+            'quantity_product_in_stock' => 'Количество товара на складе',
         ];
     }
 

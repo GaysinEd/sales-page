@@ -19,6 +19,7 @@ use yii\db\ActiveRecord;
  * @property ProductsGuide   $product           информация о продукте
  * @property Provider        $provider          информация о поставщике
  * @property Sales[]         $sales             продажи
+ * @property string          $delete_at         дата удаления
  */
 
 class Receipt extends ActiveRecord
@@ -37,6 +38,7 @@ class Receipt extends ActiveRecord
             [['time_of_receipt'], 'string', 'max' => 255],
             [['product_id', 'provider_id', 'price', 'quantity'], 'required'],
             ['product_id', 'exist', 'targetClass' => ProductsGuide::class, 'targetAttribute' => 'id'],
+            [['delete_at'], 'string', 'max' => 255],
         ];
     }
 

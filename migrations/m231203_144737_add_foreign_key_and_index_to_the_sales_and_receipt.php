@@ -21,7 +21,6 @@ class m231203_144737_add_foreign_key_and_index_to_the_sales_and_receipt extends 
             'product_id',
             'products_guide',
             'id',
-            'RESTRICT'
         );
 
         $this->createIndex(
@@ -36,7 +35,6 @@ class m231203_144737_add_foreign_key_and_index_to_the_sales_and_receipt extends 
             'manager_id',
             'manager',
             'id',
-            'RESTRICT'
         );
 
         $this->createIndex(
@@ -51,7 +49,6 @@ class m231203_144737_add_foreign_key_and_index_to_the_sales_and_receipt extends 
             'product_id',
             'products_guide',
             'id',
-            'RESTRICT'
         );
 
         $this->createIndex(
@@ -66,7 +63,6 @@ class m231203_144737_add_foreign_key_and_index_to_the_sales_and_receipt extends 
             'provider_id',
             'provider',
             'id',
-            'RESTRICT'
         );
     }
 

@@ -12,8 +12,8 @@ class SalesController extends Controller
 {
     public function actionIndex()
     {
-        $productsGuide    = ProductsGuide::find()->all();
-        $managers         = Manager::find()->all();
+        $productsGuide = ProductsGuide::find()->all();
+        $managers      = Manager::find()->all();
 
         $modelSales = new Sales();
 

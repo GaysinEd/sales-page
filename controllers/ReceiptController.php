@@ -78,15 +78,13 @@ class ReceiptController extends Controller
      */
     public function actionCreate()
     {
-        $productsGuide    = ProductsGuide::find()->all();
-        $providers        = Provider::find()->all();
+        $productsGuide = ProductsGuide::find()->all();
+        $providers     = Provider::find()->all();
 
         $model = new Receipt();
 
         if ($this->request->isPost) {
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-                $model->time_of_receipt = date('Y-m-d H:i:s');
-
                 if ($model->save()) {
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
@@ -109,13 +107,12 @@ class ReceiptController extends Controller
      */
     public function actionUpdate(int $id)
     {
-        $productsGuide    = ProductsGuide::find()->all();
-        $providers        = Provider::find()->all();
+        $productsGuide = ProductsGuide::find()->all();
+        $providers     = Provider::find()->all();
 
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -135,7 +132,7 @@ class ReceiptController extends Controller
      */
     public function actionDelete(int $id): Response
     {
-        $this->findModel($id)->delete();
+         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }

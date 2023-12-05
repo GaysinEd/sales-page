@@ -14,6 +14,7 @@ use yii\db\ActiveRecord;
  * @property string      $fullName          Полное ФИО
  * @property Sales[]     $sales             Продажи
  * @property int         $managerIdLastSale Id менеджера совершившего последнюю продажу
+ * @property string      $delete_at         дата удаления
  */
 class Manager extends ActiveRecord
 {
@@ -26,6 +27,7 @@ class Manager extends ActiveRecord
     {
         return [
             [['surname', 'name', 'patronymic'], 'string', 'max' => 255],
+            [['delete_at'], 'string', 'max' => 255],
         ];
     }
 

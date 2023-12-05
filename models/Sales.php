@@ -21,12 +21,11 @@ use yii\validators\QuantityValidator;
  * @property string          $quantityValidator  валидатор количества продаваемого товара
  * @property Receipt[]       $receipt            поступления товара
  * @property string          $priceValidator     валидатор стоимости продаваемого товара
+ * @property string          $delete_at          дата удаления
  **/
 
 class Sales extends ActiveRecord
 {
-//    const EVENT_AFTER_INSERT = 'afterInsert';
-
     public static function tableName(): string
     {
         return 'sales';
@@ -35,15 +34,16 @@ class Sales extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['id', 'product_id', 'manager_id'],                'integer'],
-            [['price'],                                         'double',    'min' => 0.01],
-            [['quantity'],                                      'integer',   'min' => 0],
-            [['time_of_sale'],                                  'string',    'max' => 255],
+            [['id', 'product_id', 'manager_id'], 'integer'],
+            [['price'], 'double', 'min' => 0.01],
+            [['quantity'], 'integer', 'min' => 0],
+            [['time_of_sale'], 'string', 'max' => 255],
             [['product_id', 'manager_id', 'price', 'quantity'], 'required'],
             [['price', 'quantity'], 'trim'],
             ['quantity', QuantityValidator::class],
 //            ['quantity', 'quantityValidator'],
             ['price', 'priceValidator'],
+            [['delete_at'], 'string', 'max' => 255],
         ];
     }
 

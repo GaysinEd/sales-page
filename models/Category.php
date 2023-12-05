@@ -5,6 +5,9 @@ namespace app\models;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
+/**
+ * @property string $name    наименование категории
+ */
 class Category extends ActiveRecord
 {
     public static function tableName(): string
