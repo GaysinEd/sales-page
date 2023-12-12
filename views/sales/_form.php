@@ -17,7 +17,19 @@ use yii\web\View;
 /** @var Sales           $modelSales */
 /** @var GridView        $dataProvider */
 
+//echo GridView::widget([
+//    'dataProvider' => $dataProvider,
+//    'columns' => [
+//        'product_id',
+//        'price',
+//        'quantity',
+//        'time_of_sale',
+//        'manager_id',
+//    ],
+//])
 ?>
+
+
 <div class="sales-list-form">
     <?php $form = ActiveForm::begin()?>
     <?= $form->field($modelSales, 'product_id')->dropDownList(ArrayHelper::map($productsGuide, 'id', 'name'), ['prompt' => 'Выберите товар']) ?>

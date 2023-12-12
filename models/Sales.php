@@ -21,10 +21,10 @@ use yii\validators\QuantityValidator;
  * @property string          $quantityValidator  валидатор количества продаваемого товара
  * @property Receipt[]       $receipt            поступления товара
  * @property string          $priceValidator     валидатор стоимости продаваемого товара
- * @property string          $deleted_at          дата удаления
+ * @property string          $delete_at          дата удаления
  **/
 
-class Sales extends BaseModel
+class Sales extends ActiveRecord
 {
     public static function tableName(): string
     {
@@ -43,7 +43,7 @@ class Sales extends BaseModel
             ['quantity', QuantityValidator::class],
 //            ['quantity', 'quantityValidator'],
             ['price', 'priceValidator'],
-            [['deleted_at'], 'string', 'max' => 255],
+            [['delete_at'], 'string', 'max' => 255],
         ];
     }
 

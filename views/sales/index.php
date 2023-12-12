@@ -21,6 +21,54 @@ use yii\grid\GridView;
 /** @var Manager         $modelManager */
 
 
+
+
+
+//      foreach ($managers as $manager) {
+//          echo print_r($manager) . '<br>';
+//    }
+
+//echo $product->price;
+
+//print_r($salesName);
+//echo count($salesName->name);
+
+//print_r($productsAndPrice);
+//echo '<br>';
+//
+//
+//
+//foreach ($managers as $manager) {
+////        echo $manager->getFullName() . '<br>';
+//       echo $manager->getShortName() . '<br>';
+//    }
+
+
+//    echo print_r($productsAndPrice) . '<br>';
+//foreach ($productsAndPrice as $value)
+//{
+//   echo print_r($value) . '<br>';                       //  1 ???
+//}
+
+
+// $name = 'OPG';     ?????
+// echo $name;
+
+//$x = 5+2;
+//$x *=2;
+//$x +=2;
+//echo $x;
+
+
+//      foreach ($productsGuide as $prod) {
+//          echo print_r($prod) . '<br>';
+//      }
+
+//    echo '<pre>';
+//    print_r($sales);
+//    echo '</pre>';
+//    exit();
+
 $this->title = 'Продажи';
 ?>
 
