@@ -9,7 +9,7 @@ use yii\db\ActiveRecord;
  * @property Receipt[] $receipt поступления
  */
 
-class Provider extends ActiveRecord
+class Provider extends BaseModel
 {
     public static function tableName(): string
     {

@@ -21,11 +21,11 @@ use yii\db\ActiveRecord;
  * @property int       $remainder                  остаток товара
  * @property Receipt[] $receipt                    поступления
  * @property float     $avgPriceReceiptProduct     средняя цена поступлений товара
- * @property string    $delete_at                  дата удаления
+ * @property string    $deleted_at                  дата удаления
  *
  */
 
-class ProductsGuide extends ActiveRecord
+class ProductsGuide extends BaseModel
 {
     public static function tableName(): string
     {
@@ -39,7 +39,7 @@ class ProductsGuide extends ActiveRecord
             [['avg_price_receipt_product'], 'double'],
             [['category_id', 'quantity_product_in_stock'], 'integer'],
             [['name', 'category_id'], 'required'],
-            [['delete_at'], 'string', 'max' => 255],
+            [['deleted_at'], 'string', 'max' => 255],
         ];
     }
 

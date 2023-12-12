@@ -4,7 +4,6 @@ namespace app\models;
 
 use app\components\behaviors\CalculateReceiptBehavior;
 use yii\db\ActiveQuery;
-use yii\db\ActiveRecord;
 
 
 /**
@@ -19,10 +18,10 @@ use yii\db\ActiveRecord;
  * @property ProductsGuide   $product           информация о продукте
  * @property Provider        $provider          информация о поставщике
  * @property Sales[]         $sales             продажи
- * @property string          $delete_at         дата удаления
+ * @property string          $deleted_at         дата удаления
  */
 
-class Receipt extends ActiveRecord
+class Receipt extends BaseModel
 {
     public static function tableName(): string
     {
@@ -38,7 +37,7 @@ class Receipt extends ActiveRecord
             [['time_of_receipt'], 'string', 'max' => 255],
             [['product_id', 'provider_id', 'price', 'quantity'], 'required'],
             ['product_id', 'exist', 'targetClass' => ProductsGuide::class, 'targetAttribute' => 'id'],
-            [['delete_at'], 'string', 'max' => 255],
+            [['deleted_at'], 'string', 'max' => 255],
         ];
     }
 
