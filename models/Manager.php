@@ -3,7 +3,6 @@
 namespace app\models;
 
 use yii\db\ActiveQuery;
-use yii\db\ActiveRecord;
 
 /**
  * @property int         $id
@@ -13,10 +12,10 @@ use yii\db\ActiveRecord;
  * @property string      $shortName         Фамилия и инициалы
  * @property string      $fullName          Полное ФИО
  * @property Sales[]     $sales             Продажи
- * @property int         $managerIdLastSale Id менеджера совершившего последнюю продажу
- * @property string      $delete_at         дата удаления
+ * @property int         $managerIdLastSale id менеджера совершившего последнюю продажу
+ * @property string      $deleted_at        дата удаления
  */
-class Manager extends ActiveRecord
+class Manager extends BaseModel
 {
     public static function tableName(): string
     {
@@ -27,7 +26,8 @@ class Manager extends ActiveRecord
     {
         return [
             [['surname', 'name', 'patronymic'], 'string', 'max' => 255],
-            [['delete_at'], 'string', 'max' => 255],
+            [['surname', 'name', 'patronymic'], 'required'],
+            [['deleted_at'], 'string', 'max' => 255],
         ];
     }
 

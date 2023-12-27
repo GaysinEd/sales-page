@@ -47,6 +47,9 @@ class CalculateReceiptBehavior extends Behavior
             $productsGuide = $model->product;
             $productsGuide->quantity_product_in_stock -= $model->quantity;
             $productsGuide->save();
+
+            $model->deleted_at = date('Y-m-d H:i:s');
+            $model->save();
         }
     }
 }

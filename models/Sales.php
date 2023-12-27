@@ -4,7 +4,7 @@ namespace app\models;
 
 use app\components\behaviors\CalculateSaleBehavior;
 use yii\db\ActiveQuery;
-use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use yii\validators\QuantityValidator;
 
 /**
@@ -21,14 +21,22 @@ use yii\validators\QuantityValidator;
  * @property string          $quantityValidator  валидатор количества продаваемого товара
  * @property Receipt[]       $receipt            поступления товара
  * @property string          $priceValidator     валидатор стоимости продаваемого товара
- * @property string          $delete_at          дата удаления
+ * @property string          $deleted_at         дата удаления
  **/
 
-class Sales extends ActiveRecord
+class Sales extends BaseModel
 {
     public static function tableName(): string
     {
         return 'sales';
+    }
+
+    public function extraFields()
+    {
+        return ArrayHelper::merge(parent::extraFields(),[
+            'product',
+            'manager',
+        ]);
     }
 
     public function rules(): array
@@ -77,11 +85,6 @@ class Sales extends ActiveRecord
     public function getProduct(): ActiveQuery
     {
         return $this->hasOne(ProductsGuide::class, ['id' => 'product_id']);
-    }
-
-    public function getReceipt(): ActiveQuery
-    {
-        return $this->hasMany(Receipt::class, ['product_id' => 'product_id']);       //верно ли что hasMany ?
     }
 
     public function quantityValidator($value)

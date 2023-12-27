@@ -19,6 +19,7 @@ class BaseActiveQuery extends ActiveQuery
         $this->deletedFilter();
         parent::init();
     }
+
     public function deletedFilter(): BaseActiveQuery
     {
         $modelClass = $this->modelClass;
