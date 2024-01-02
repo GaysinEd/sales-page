@@ -123,8 +123,9 @@ class ProductsGuide extends BaseModel
 
     public function getAvgPriceReceiptProduct(): float
     {
-        return round($this->getReceipt()
+        $avgPrice = $this->getReceipt()
             ->select('(sum(price*quantity))/(sum(quantity))')
-            ->scalar(), 2);
+            ->scalar() ?? 0;
+        return round($avgPrice, 2);
     }
 }

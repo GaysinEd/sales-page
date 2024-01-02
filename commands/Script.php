@@ -19,7 +19,7 @@ Class Script extends Controller
 
                 $sumQuantitySaleProduct    = $product->getSumQuantitySaleProduct();
 
-                $avgPriceReceiptProduct    = round($product->getAvgPriceReceiptProduct(), 2);
+                $avgPriceReceiptProduct    = $product->getAvgPriceReceiptProduct();
 
                 $product->quantity_product_in_stock = $sumQuantityReceiptProduct - $sumQuantitySaleProduct;
                 $product->avg_price_receipt_product = $avgPriceReceiptProduct;

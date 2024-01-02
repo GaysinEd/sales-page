@@ -4,6 +4,7 @@ namespace app\models;
 
 use app\components\behaviors\CalculateSaleBehavior;
 use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\validators\QuantityValidator;
 
@@ -21,10 +22,9 @@ use yii\validators\QuantityValidator;
  * @property string          $quantityValidator  валидатор количества продаваемого товара
  * @property Receipt[]       $receipt            поступления товара
  * @property string          $priceValidator     валидатор стоимости продаваемого товара
- * @property string          $deleted_at         дата удаления
  **/
 
-class Sales extends BaseModel
+class Sales extends ActiveRecord
 {
     public static function tableName(): string
     {
@@ -51,7 +51,6 @@ class Sales extends BaseModel
             ['quantity', QuantityValidator::class],
 //            ['quantity', 'quantityValidator'],
             ['price', 'priceValidator'],
-            [['delete_at'], 'string', 'max' => 255],
         ];
     }
 
