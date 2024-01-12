@@ -20,6 +20,13 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Добавить новое поступление', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
+    <div class="upload-csv">
+        <h3>Загрузить CSV файл</h3>
+        <?= Html::beginForm(['receipt/upload-csv'], 'post', ['enctype' => 'multipart/form-data']) ?>
+        <?= Html::fileInput('csvFile') ?>
+        <?= Html::submitButton('Загрузить', ['class' => 'btn btn-primary']) ?>
+        <?= Html::endForm() ?>
+    </div>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

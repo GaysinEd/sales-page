@@ -13,13 +13,17 @@ use yii\web\View;
 
 <div class="manager-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?= $form->field($model, 'surname')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'patronymic')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'imageFile')->fileInput() ?>
+
+<!--    <button>Submit</button>-->
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

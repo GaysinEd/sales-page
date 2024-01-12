@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use app\components\behaviors\CalculateReceiptBehavior;
+use app\components\behaviors\MarkDeletedAtBehavior;
 use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
 
@@ -58,6 +60,15 @@ class ProductsGuide extends BaseModel
             'category_id'               => 'Категория',
             'avg_price_receipt_product' => 'Средняя цена поступлений товара',
             'quantity_product_in_stock' => 'Количество товара на складе',
+        ];
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            'markDeletedAtBehavior' => [
+                'class' => MarkDeletedAtBehavior::class,
+            ]
         ];
     }
 

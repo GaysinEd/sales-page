@@ -3,8 +3,12 @@
 namespace app\models;
 
 use app\components\behaviors\CalculateReceiptBehavior;
+use app\components\behaviors\MarkDeletedAtBehavior;
 use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
+use yii\db\BaseActiveRecord;
 use yii\helpers\ArrayHelper;
+use yii\web\UploadedFile;
 
 /**
  * Это класс модели для таблицы "Поступления товара".
@@ -19,6 +23,7 @@ use yii\helpers\ArrayHelper;
  * @property Provider        $provider          информация о поставщике
  * @property Sales[]         $sales             продажи
  * @property string          $deleted_at        дата удаления
+ * @property UploadedFile    $csvFile           csv файл
  */
 
 class Receipt extends BaseModel
@@ -46,6 +51,7 @@ class Receipt extends BaseModel
             [['product_id', 'provider_id', 'price', 'quantity'], 'required'],
             ['product_id', 'exist', 'targetClass' => ProductsGuide::class, 'targetAttribute' => 'id'],
             [['deleted_at'], 'string', 'max' => 255],
+//            [['csvFile'], 'file'],
         ];
     }
 
@@ -66,6 +72,9 @@ class Receipt extends BaseModel
         return [
             'calculateReceiptBehavior' => [
                 'class' => CalculateReceiptBehavior::class,
+            ],
+            'markDeletedAtBehavior' => [
+                'class' => MarkDeletedAtBehavior::class,
             ]
         ];
     }

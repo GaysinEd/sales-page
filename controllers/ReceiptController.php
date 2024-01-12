@@ -11,6 +11,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
+use yii\web\UploadedFile;
 
 /**
  * ReceiptController реализует действия CRUD для модели Receipt.
@@ -30,6 +31,42 @@ class ReceiptController extends Controller
                 ],
             ]
         );
+    }
+
+    /**
+     * Загружает csvFile
+     *
+     * @return Response
+     */
+    public function actionUploadCsv(): Response
+    {
+        $csvFile = UploadedFile::getInstanceByName('csvFile');
+        if ($csvFile !== null) {
+            $filePath = 'uploads/' . $csvFile->baseName . '.' . $csvFile->extension;
+            $csvFile->saveAs($filePath);
+
+            $csvData = file_get_contents($filePath);
+            $data = str_getcsv($csvData, "\n");
+
+            unset($data[0]);
+
+            foreach($data as $row) {
+                $row = str_getcsv($row, ";");
+                $row = mb_convert_encoding($row, "utf-8", "CP1251");
+
+                $receipt = new Receipt();
+                $receipt->setAttributes([
+                    'product_id' => $row[0],
+                    'provider_id' => $row[1],
+                    'price' => $row[2],
+                    'quantity' => $row[3],
+                    'time_of_receipt' => date('Y-m-d H:i:s'),
+                ]);
+                $receipt->save();
+            }
+            //unlink($filePath); // Удаляем загруженный файл
+        }
+        return $this->redirect('index');
     }
 
     /**
@@ -86,6 +123,8 @@ class ReceiptController extends Controller
         if ($this->request->isPost) {
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
                 if ($model->save()) {
+                    $model->time_of_receipt = date('Y-m-d H:i:s');
+                    $model->save();
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
             }

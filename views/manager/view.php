@@ -36,6 +36,9 @@ YiiAsset::register($this);
             'surname',
             'name',
             'patronymic',
+            ['attribute'=>'image_file',
+            'value'=>'/web/uploads/' . $model->image_file,
+            'format' => ['image',['width'=>100,'height'=>100]]],
         ],
     ]) ?>
 

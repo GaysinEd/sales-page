@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\behaviors\MarkDeletedAtBehavior;
 use yii\db\ActiveQuery;
 
 /**
@@ -14,9 +15,12 @@ use yii\db\ActiveQuery;
  * @property Sales[]     $sales             Продажи
  * @property int         $managerIdLastSale id менеджера совершившего последнюю продажу
  * @property string      $deleted_at        дата удаления
+ * @property string      $image_file        изображение
  */
 class Manager extends BaseModel
 {
+    public $imageFile;
+
     public static function tableName(): string
     {
         return 'manager';
@@ -26,6 +30,7 @@ class Manager extends BaseModel
     {
         return [
             [['surname', 'name', 'patronymic'], 'string', 'max' => 255],
+            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
             [['surname', 'name', 'patronymic'], 'required'],
             [['deleted_at'], 'string', 'max' => 255],
         ];
@@ -38,6 +43,16 @@ class Manager extends BaseModel
             'surname'    => 'Фамилия',
             'name'       => 'Имя',
             'patronymic' => 'Отчество',
+            'image_file' => 'Изображение',
+        ];
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            'markDeletedAtBehavior' => [
+                'class' => MarkDeletedAtBehavior::class,
+            ]
         ];
     }
 
@@ -56,4 +71,13 @@ class Manager extends BaseModel
         return  $this->hasMany(Sales::class, ['manager_id' => 'id']);
     }
 
+    public function upload(): bool
+    {
+        if ($this->validate()) {
+            $this->imageFile->saveAs('uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
